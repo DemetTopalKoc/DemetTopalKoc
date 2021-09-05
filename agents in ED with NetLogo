@@ -1,0 +1,100 @@
+;;;; Types of Turtle
+breed [patients patient]        ;; Ajanların oluşması
+breed [doctors doctor]
+breed [senior-doctors senior-doctor]
+breed [nurses nurse]
+breed [senior-nurses senior-nurse]
+breed [mylabels mylabel]
+breed [admissionstaffs admissionstaff]
+breed [senior-admissionstaffs senior-admissionstaff]
+
+
+;;Global variables
+globals[
+  dist_patient_lv1_fq ;; level=1 (minor) seviyedeki hasta dağılım sıklığı
+  dist_patient_lv2_fq
+  dist_patient_lv3_fq
+
+  ;; Seviye seviye hastalığın tedavisi için gereken tedavi süreleri
+  dist_lv1_treatment_times
+  dist_lv1_senior-doctor_treatment_times  ;;tecrübeli doktorlar/hemşireler daha kısa sürede tedavi edebiliyor.
+  dist_lv2_treatment_times
+  dist_lv2_senior-doctor_treatment_times
+  dist_lv3_treatment_times
+  dist_lv3_senior-doctor_treatment_times
+
+  ;;Hastaların hastaneye varış şeklinin/yerinin tanımlanması
+  dist_lv1_arrival_type
+  dist_lv2_arrival_type
+  dist_lv3_arrival_type
+
+  ;; Zaman Takibi için
+  simticks
+
+  ;;Minor, major ve resus alanlarının alabileceği max hasta sayıları
+ minor_size
+ major_size
+ resus_size
+
+
+ ;; Toplam maliyet için
+  total-cost
+
+  ;; Ambulans ve bekleme odasında ortalama ve maximum bekleme süresini tutan değişken
+  waittime_ambulance_avg
+  waittime_ambulance_max
+  waittime_waitroom_avg
+  waittime_waitroom_max
+
+  doctor-requirement
+  nurse-requirement
+  admissionstaff-requirement
+]
+  ;;Turtles variables
+  patients-own [
+    pt_severity                ;;şu anki ağrı şiddeti, hastanın hastalık şiddeti
+    pt_severity_initial        ;; hastaneye ilk geldiğindeki, başlangıçtaki hastalık durumu
+    pt_creation_time           ;;hastanın oluşturulduğu zaman
+    pt_treatment_time          ;;tedavi zamanı (hastanede kalınan zaman, dinamik)
+    pt_treatment_time_initial  ;; başlangıç tedavi zamanı
+    pt_location                ;;hastanın lokasyonu
+    pt_arrival_type            ;;Hastanın nasıl hastaneye geldiği (ambulansla mı, kendisi mi?)
+    pt_waitingtime             ;;Hastanın hastanede ne kadar kaldığı
+    pt_allocated_doctor        ;; Şu anda hasta ile bir doktor ilgleniyor mu? Binary yani doğru, yanlış değişken
+    pt_allocated_senior-doctor
+    pt_allocated_admissionstaff ;;şu anda hastayı kayıt yapan personel var mı?
+    pt_allocated_senior-admissionstaff
+    pt_allocated_nurse
+    pt_allocated_senior-nurse
+  ]
+    doctors-own [
+      doctor_available ;; Doktor şu an müsait mi?
+      doctor_cost
+      doctor_tick
+
+    ]
+   senior-doctors-own [
+       senior-doctor_available
+       senior-doctor_cost
+       senior-doctor_tick
+   ]
+   nurses-own [
+      nurse_available          ;;Hemşire şu an müsait mi?
+      nurse_cost
+      nurse_tick
+    ]
+   senior-nurses-own [
+      senior-nurse_available
+      senior-nurse_cost
+      senior-nurse_tick
+   ]
+   admissionstaffs-own [
+      admissionstaff_available  ;; Kayıt personeli şu an müsait mi?
+      admissionstaff_cost
+      admissionstaff_tick
+  ]
+   senior-admissionstaffs-own [
+      senior-admissionstaff_available  ;; tecrübeli kayıt personeli şu an müsait mi?
+      senior-admissionstaff_cost
+      senior-admissionstaff_tick
+  ]
